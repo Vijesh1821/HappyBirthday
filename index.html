@@ -1,0 +1,409 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+<title>Happy Birthday Adithi!</title>
+<style>
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box;}
+:root{
+  --pink:#ff4db2;--cyan:#00e5ff;--gold:#ffd700;--green:#00ff99;
+  --purple:#c966ff;--orange:#ff6b35;
+  --card:rgba(255,255,255,0.06);--border:rgba(255,255,255,0.12);
+  --nav-h:64px;
+}
+html{scroll-behavior:smooth;}
+body{font-family:'Segoe UI',system-ui,-apple-system,sans-serif;background:#080818;color:#fff;overflow-x:hidden;min-height:100vh;}
+
+#stars{position:fixed;inset:0;pointer-events:none;z-index:0;overflow:hidden;}
+.star{position:absolute;border-radius:50%;background:#fff;animation:twinkle var(--d) infinite var(--delay);}
+@keyframes twinkle{0%,100%{opacity:.1;}50%{opacity:1;}}
+
+#welcome{
+  position:fixed;inset:0;z-index:999;
+  background:linear-gradient(135deg,#0d0030 0%,#00102a 100%);
+  display:flex;align-items:center;justify-content:center;
+  animation:fadeOut .8s ease-out 3.2s forwards;
+}
+.wc{text-align:center;animation:popIn .9s cubic-bezier(.175,.885,.32,1.275);}
+/* .wc h1{
+  font-size:clamp(2rem,7vw,5rem);font-weight:900;line-height:1.2;
+  background:linear-gradient(90deg,var(--pink),var(--cyan),var(--gold),var(--pink));
+  background-size:300%;-webkit-background-clip:text;-webkit-text-fill-color:transparent;
+  background-clip:text;animation:gf 3s linear infinite;
+} */
+
+.wc h1{
+  font-size:clamp(2rem,7vw,5rem);
+  background:linear-gradient(90deg,var(--pink),var(--cyan),var(--gold),var(--pink));
+  font-weight:900;
+  line-height:1.2;
+  color:white;   /* TEXT WHITE */
+}
+.wc p{font-size:clamp(.9rem,2.5vw,1.4rem);opacity:.65;margin-top:14px;}
+@keyframes popIn{from{transform:scale(.3) rotate(-20deg);opacity:0;}to{transform:scale(1) rotate(0);opacity:1;}}
+@keyframes fadeOut{to{opacity:0;visibility:hidden;pointer-events:none;}}
+@keyframes gf{0%{background-position:0%;}100%{background-position:300%;}}
+
+/* bottom nav mobile */
+#nav{
+  position:fixed;bottom:0;left:0;right:0;
+  background:rgba(8,8,24,.95);backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);
+  border-top:1px solid var(--border);
+  display:flex;justify-content:space-around;align-items:center;
+  padding:8px 4px max(8px,env(safe-area-inset-bottom));
+  z-index:200;height:var(--nav-h);
+}
+.nb{display:flex;flex-direction:column;align-items:center;gap:2px;cursor:pointer;padding:6px 8px;border-radius:10px;border:none;background:none;color:rgba(255,255,255,.45);font-size:9px;transition:color .2s,background .2s;min-width:40px;}
+.nb .ni{font-size:19px;line-height:1;}
+.nb.active{color:var(--pink);}
+.nb:hover,.nb:focus{background:rgba(255,255,255,.07);color:#fff;}
+
+/* side nav desktop */
+#sidenav{display:none;position:fixed;right:24px;top:50%;transform:translateY(-50%);flex-direction:column;gap:10px;z-index:200;}
+@media(min-width:900px){
+  #nav{display:none;}
+  #sidenav{display:flex;}
+  :root{--nav-h:0px;}
+}
+.sn{width:44px;height:44px;border-radius:50%;border:2px solid var(--border);background:rgba(255,255,255,.06);backdrop-filter:blur(10px);display:flex;align-items:center;justify-content:center;font-size:18px;cursor:pointer;transition:all .25s;position:relative;}
+.sn:hover,.sn.active{border-color:var(--pink);background:rgba(255,77,178,.15);transform:scale(1.1);}
+.sn-tip{position:absolute;right:54px;background:rgba(20,10,40,.92);backdrop-filter:blur(10px);padding:4px 10px;border-radius:6px;font-size:12px;white-space:nowrap;pointer-events:none;opacity:0;transition:opacity .2s;border:1px solid var(--border);}
+.sn:hover .sn-tip{opacity:1;}
+
+/* sections */
+.section{min-height:100vh;min-height:100dvh;padding:60px 20px calc(var(--nav-h) + 40px);display:flex;flex-direction:column;align-items:center;justify-content:center;position:relative;z-index:1;opacity:0;transform:translateY(40px);transition:opacity .7s ease,transform .7s ease;}
+.section.visible{opacity:1;transform:translateY(0);}
+@media(min-width:900px){.section{padding:80px 80px 80px;}}
+.sec-title{font-size:clamp(1.6rem,4.5vw,3rem);font-weight:900;text-align:center;margin-bottom:36px;letter-spacing:-.5px;}
+
+/* countdown */
+.bday-headline{font-size:clamp(1.8rem,6vw,4.5rem);font-weight:900;text-align:center;margin-bottom:16px;animation:pulse 2s ease-in-out infinite;}
+@keyframes pulse{0%,100%{transform:scale(1);}50%{transform:scale(1.04);}}
+.cd-sub{text-align:center;font-size:clamp(.9rem,2.5vw,1.2rem);opacity:.6;margin-bottom:36px;}
+.cd-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:clamp(10px,2vw,24px);width:100%;max-width:680px;}
+.cd-box{background:var(--card);border:1px solid var(--border);border-radius:20px;padding:clamp(18px,3.5vw,44px) 10px;text-align:center;backdrop-filter:blur(10px);position:relative;overflow:hidden;transition:transform .3s,box-shadow .3s;}
+.cd-box::before{content:'';position:absolute;inset:0;background:linear-gradient(135deg,rgba(255,77,178,.1),rgba(0,229,255,.1));pointer-events:none;}
+.cd-box:hover{transform:translateY(-6px);box-shadow:0 12px 40px rgba(255,77,178,.3);}
+.cd-val{font-size:clamp(1.8rem,5.5vw,3.8rem);font-weight:900;line-height:1;}
+.cd-lbl{font-size:clamp(.55rem,1.4vw,.85rem);text-transform:uppercase;letter-spacing:2px;opacity:.65;margin-top:6px;}
+
+/* quiz */
+.quiz-wrap{width:100%;max-width:680px;}
+.quiz-q{font-size:clamp(1.1rem,3vw,1.9rem);text-align:center;margin-bottom:28px;line-height:1.5;}
+.quiz-opts{display:flex;flex-direction:column;gap:12px;}
+.qo{background:var(--card);border:1px solid var(--border);border-radius:14px;padding:clamp(14px,2.5vw,22px) clamp(16px,3vw,28px);font-size:clamp(.95rem,2.2vw,1.3rem);cursor:pointer;transition:transform .25s,border-color .25s,box-shadow .25s;backdrop-filter:blur(8px);}
+.qo:hover{transform:translateX(6px);border-color:rgba(255,77,178,.6);box-shadow:0 6px 24px rgba(255,77,178,.25);}
+.qo.correct{border-color:var(--green);background:rgba(0,255,153,.12);animation:correctAnim .5s ease;}
+.qo.wrong{border-color:#ff4444;background:rgba(255,68,68,.12);animation:shake .5s ease;}
+@keyframes correctAnim{0%,100%{transform:scale(1);}50%{transform:scale(1.04);}}
+@keyframes shake{0%,100%{transform:translateX(0);}25%{transform:translateX(-8px);}75%{transform:translateX(8px);}}
+#quizResult{text-align:center;font-size:clamp(1rem,2.5vw,1.5rem);font-weight:700;margin-top:22px;min-height:2em;line-height:1.4;}
+
+/* balloons */
+.balloon-wrap{display:flex;justify-content:center;flex-wrap:wrap;gap:clamp(16px,3vw,36px);margin:20px 0 36px;width:100%;max-width:720px;}
+.balloon{width:clamp(68px,9.5vw,96px);height:clamp(88px,12.5vw,124px);border-radius:50% 50% 50% 50% / 60% 60% 40% 40%;cursor:pointer;transition:transform .3s,filter .3s;animation:floatB var(--fd,3s) ease-in-out infinite var(--fdelay,0s);position:relative;box-shadow:0 8px 24px rgba(0,0,0,.3);display:flex;align-items:center;justify-content:center;}
+.balloon::before{content:'';position:absolute;bottom:-26px;left:50%;transform:translateX(-50%);width:2px;height:36px;background:rgba(255,255,255,.3);}
+.balloon .btext{font-size:clamp(1.1rem,2.8vw,1.8rem);opacity:.5;pointer-events:none;}
+.balloon:hover{transform:scale(1.12) translateY(-8px);filter:brightness(1.2);}
+.balloon.popped{animation:pop .4s ease forwards;pointer-events:none;}
+@keyframes floatB{0%,100%{transform:translateY(0) rotate(-4deg);}50%{transform:translateY(-16px) rotate(4deg);}}
+@keyframes pop{0%{transform:scale(1);opacity:1;}50%{transform:scale(1.4);opacity:.4;}100%{transform:scale(0);opacity:0;}}
+#balloonMsg{text-align:center;font-size:clamp(1.1rem,3vw,1.9rem);font-weight:700;min-height:3em;padding:0 12px;line-height:1.5;}
+
+/* memory */
+.mem-grid{display:grid;grid-template-columns:repeat(4,clamp(62px,11.5vw,108px));gap:clamp(8px,1.5vw,14px);justify-content:center;margin:0 0 24px;}
+.mc{width:clamp(62px,11.5vw,108px);height:clamp(62px,11.5vw,108px);background:var(--card);border:1px solid var(--border);border-radius:12px;display:flex;align-items:center;justify-content:center;cursor:pointer;font-size:clamp(1.4rem,3.5vw,2.6rem);transition:transform .3s,box-shadow .3s,background .3s;backdrop-filter:blur(8px);user-select:none;}
+.mc:hover:not(.matched){transform:translateY(-4px) scale(1.05);box-shadow:0 8px 24px rgba(255,77,178,.3);}
+.mc.flipped{background:rgba(0,255,153,.12);border-color:var(--green);}
+.mc.matched{background:rgba(255,215,0,.15);border-color:var(--gold);cursor:default;animation:matchPop .4s ease;}
+@keyframes matchPop{0%,100%{transform:scale(1);}50%{transform:scale(1.1);}}
+.mem-controls{display:flex;gap:12px;justify-content:center;flex-wrap:wrap;margin-top:8px;}
+#gameResult{text-align:center;font-size:clamp(1rem,2.5vw,1.7rem);font-weight:700;color:var(--gold);min-height:2em;text-shadow:0 0 20px rgba(255,215,0,.6);margin-top:12px;}
+
+/* buttons */
+.btn{padding:12px 28px;font-size:clamp(.85rem,2vw,1.1rem);font-weight:700;background:linear-gradient(135deg,var(--pink),var(--cyan));border:none;border-radius:50px;color:#fff;cursor:pointer;transition:transform .25s,box-shadow .25s;box-shadow:0 4px 16px rgba(255,77,178,.35);}
+.btn:hover{transform:translateY(-3px) scale(1.04);box-shadow:0 8px 28px rgba(255,77,178,.55);}
+.btn:active{transform:translateY(0);}
+
+/* wishes */
+.wishes-inner{width:100%;max-width:680px;}
+.wish-row{display:flex;gap:10px;margin-bottom:22px;flex-wrap:wrap;}
+#wishInput{flex:1;min-width:160px;padding:14px 18px;font-size:clamp(.9rem,2vw,1.1rem);border:1px solid var(--border);border-radius:12px;background:rgba(255,255,255,.06);color:#fff;backdrop-filter:blur(8px);transition:border-color .25s,box-shadow .25s;outline:none;}
+#wishInput::placeholder{color:rgba(255,255,255,.35);}
+#wishInput:focus{border-color:var(--pink);box-shadow:0 0 0 3px rgba(255,77,178,.2);}
+#wishesDisplay{display:flex;flex-direction:column;gap:12px;max-height:320px;overflow-y:auto;padding-right:4px;}
+#wishesDisplay::-webkit-scrollbar{width:4px;}
+#wishesDisplay::-webkit-scrollbar-thumb{background:var(--border);border-radius:4px;}
+.wish-item{background:var(--card);border:1px solid var(--border);border-radius:12px;padding:16px 18px;font-size:clamp(.85rem,2vw,1.05rem);line-height:1.6;animation:slideIn .4s ease;backdrop-filter:blur(8px);}
+@keyframes slideIn{from{transform:translateX(-28px);opacity:0;}to{transform:translateX(0);opacity:1;}}
+
+/* finale */
+.finale-wrap{text-align:center;}
+.finale-msg{font-size:clamp(.95rem,2.5vw,1.35rem);line-height:1.9;opacity:.8;max-width:620px;margin:0 auto 40px;}
+.big-btn{display:inline-block;padding:clamp(16px,2.5vw,26px) clamp(30px,5vw,70px);font-size:clamp(1rem,2.5vw,1.8rem);font-weight:900;background:linear-gradient(135deg,var(--pink),var(--purple),var(--cyan));background-size:200%;border:none;border-radius:60px;color:#fff;cursor:pointer;letter-spacing:1px;text-transform:uppercase;animation:gradBg 3s ease infinite;transition:transform .3s,box-shadow .3s;box-shadow:0 8px 32px rgba(255,77,178,.5);}
+.big-btn:hover{transform:translateY(-5px) scale(1.06);box-shadow:0 16px 50px rgba(255,77,178,.7);}
+@keyframes gradBg{0%,100%{background-position:0%;}50%{background-position:100%;}}
+
+.confetti-piece{position:fixed;top:-30px;border-radius:50%;z-index:9999;animation:fall var(--fall-d,4s) linear forwards;pointer-events:none;}
+@keyframes fall{to{transform:translateY(110vh) rotate(720deg);opacity:0;}}
+
+@media(max-width:360px){
+  .mem-grid{grid-template-columns:repeat(4,58px);gap:6px;}
+  .mc{width:58px;height:58px;}
+}
+</style>
+</head>
+<body>
+
+<div id="stars"></div>
+
+<div id="welcome">
+  <div class="wc">
+    <h1>🎉 Happy Birthday Adithi! 🎉</h1>
+    <p>Your special day is here ✨</p>
+  </div>
+</div>
+
+<nav id="nav">
+  <button class="nb active" onclick="goTo('countdown')" data-s="countdown"><span class="ni">⏰</span>Time</button>
+  <button class="nb" onclick="goTo('quiz')" data-s="quiz"><span class="ni">❓</span>Quiz</button>
+  <button class="nb" onclick="goTo('balloons')" data-s="balloons"><span class="ni">🎈</span>Balloons</button>
+  <button class="nb" onclick="goTo('game')" data-s="game"><span class="ni">🎮</span>Game</button>
+  <button class="nb" onclick="goTo('wishes')" data-s="wishes"><span class="ni">💝</span>Wishes</button>
+  <button class="nb" onclick="goTo('finale')" data-s="finale"><span class="ni">🎊</span>Party</button>
+</nav>
+
+<nav id="sidenav">
+  <div class="sn active" onclick="goTo('countdown')">⏰<span class="sn-tip">Countdown</span></div>
+  <div class="sn" onclick="goTo('quiz')">❓<span class="sn-tip">Quiz</span></div>
+  <div class="sn" onclick="goTo('balloons')">🎈<span class="sn-tip">Balloons</span></div>
+  <div class="sn" onclick="goTo('game')">🎮<span class="sn-tip">Memory Game</span></div>
+  <div class="sn" onclick="goTo('wishes')">💝<span class="sn-tip">Wishes</span></div>
+  <div class="sn" onclick="goTo('finale')">🎊<span class="sn-tip">Grand Finale</span></div>
+</nav>
+
+<section id="countdown" class="section">
+  <div class="bday-headline">🎂 Birthday Countdown</div>
+  <p class="cd-sub">Counting down to Adithi's special day!</p>
+  <div class="cd-grid">
+    <div class="cd-box"><div class="cd-val" id="days">00</div><div class="cd-lbl">Days</div></div>
+    <div class="cd-box"><div class="cd-val" id="hours">00</div><div class="cd-lbl">Hours</div></div>
+    <div class="cd-box"><div class="cd-val" id="minutes">00</div><div class="cd-lbl">Minutes</div></div>
+    <div class="cd-box"><div class="cd-val" id="seconds">00</div><div class="cd-lbl">Seconds</div></div>
+  </div>
+</section>
+
+<section id="quiz" class="section">
+  <h2 class="sec-title">🎯 Birthday Quiz</h2>
+  <div class="quiz-wrap">
+    <div class="quiz-q">What makes a birthday truly special?</div>
+    <div class="quiz-opts">
+      <div class="qo" onclick="answerQuiz(this,false)">🎁 Expensive Gifts</div>
+      <div class="qo" onclick="answerQuiz(this,false)">🎂 A Big Party</div>
+      <div class="qo" onclick="answerQuiz(this,true)">💖 Spending Time with Loved Ones</div>
+      <div class="qo" onclick="answerQuiz(this,false)">🎊 Social Media Likes</div>
+    </div>
+    <div id="quizResult"></div>
+  </div>
+</section>
+
+<section id="balloons" class="section">
+  <h2 class="sec-title">🎈 Pop the Balloons!</h2>
+  <div class="balloon-wrap" id="balloonWrap"></div>
+  <div id="balloonMsg"></div>
+</section>
+
+<section id="game" class="section">
+  <h2 class="sec-title">🎮 Memory Match</h2>
+  <div class="mem-grid" id="memGrid"></div>
+  <div class="mem-controls">
+    <button class="btn" onclick="resetGame()">🔄 New Game</button>
+  </div>
+  <div id="gameResult"></div>
+</section>
+
+<section id="wishes" class="section">
+  <h2 class="sec-title">💝 Birthday Wishes</h2>
+  <div class="wishes-inner">
+    <div class="wish-row">
+      <input type="text" id="wishInput" placeholder="Write your birthday wish for Adithi..." maxlength="200">
+      <button class="btn" onclick="addWish()">Send 💌</button>
+    </div>
+    <div id="wishesDisplay">
+      <div class="wish-item">💝 <strong>Welcome Wish:</strong><br>May this year bring you endless joy, success, and beautiful moments to cherish forever! 🌟</div>
+    </div>
+  </div>
+</section>
+
+<section id="finale" class="section">
+  <h2 class="sec-title">🎊 Grand Finale</h2>
+  <div class="finale-wrap">
+    <p class="finale-msg">
+      I pray that you win in your life and achieve all your dreams.<br>
+      I really want to see you on top — become the person you always wanted to be.<br><br>
+      <strong>I believe in you. Yeah, I do! 💖</strong>
+    </p>
+    <button class="big-btn" onclick="launchCelebration()">🎉 Launch Celebration! 🎉</button>
+  </div>
+</section>
+
+<script>
+/* STARS */
+const sc=document.getElementById('stars');
+for(let i=0;i<130;i++){
+  const s=document.createElement('div');s.className='star';
+  const sz=Math.random()*2+1;
+  s.style.cssText=`left:${Math.random()*100}%;top:${Math.random()*100}%;width:${sz}px;height:${sz}px;--d:${(Math.random()*3+1.5).toFixed(1)}s;--delay:${(Math.random()*4).toFixed(1)}s;`;
+  sc.appendChild(s);
+}
+
+/* COUNTDOWN */
+const birthday=new Date('2026-04-18T00:00:00');
+function updateCD(){
+  const now=new Date(),diff=birthday-now;
+  if(diff>0){
+    document.getElementById('days').textContent=String(Math.floor(diff/86400000)).padStart(2,'0');
+    document.getElementById('hours').textContent=String(Math.floor((diff%86400000)/3600000)).padStart(2,'0');
+    document.getElementById('minutes').textContent=String(Math.floor((diff%3600000)/60000)).padStart(2,'0');
+    document.getElementById('seconds').textContent=String(Math.floor((diff%60000)/1000)).padStart(2,'0');
+  } else {
+    document.querySelector('.bday-headline').textContent='🎉 TODAY IS YOUR BIRTHDAY! 🎉';
+    ['days','hours','minutes','seconds'].forEach(id=>document.getElementById(id).textContent='00');
+  }
+}
+setInterval(updateCD,1000);updateCD();
+
+/* QUIZ */
+let quizDone=false;
+function answerQuiz(el,correct){
+  if(quizDone)return;
+  const opts=document.querySelectorAll('.qo');
+  opts.forEach(o=>o.style.pointerEvents='none');
+  const res=document.getElementById('quizResult');
+  if(correct){
+    quizDone=true;el.classList.add('correct');
+    res.innerHTML='🎉 Correct! You know what truly matters!';res.style.color='#00ff99';
+  } else {
+    el.classList.add('wrong');
+    res.innerHTML='💖 Think again — what matters most!';res.style.color='#ff6b9d';
+    setTimeout(()=>{
+      opts.forEach(o=>{o.classList.remove('wrong');o.style.pointerEvents='auto';});
+      res.innerHTML='';
+    },2000);
+  }
+}
+
+/* BALLOONS */
+const bColors=[
+  'linear-gradient(135deg,#ff4db2,#ff0060)',
+  'linear-gradient(135deg,#00e5ff,#0060ff)',
+  'linear-gradient(135deg,#ffd700,#ff8c00)',
+  'linear-gradient(135deg,#c966ff,#6600ff)',
+  'linear-gradient(135deg,#00ff99,#00cc66)',
+  'linear-gradient(135deg,#ff6b35,#ff0040)'
+];
+const bMsgs=[
+  '⭐ You are absolutely amazing!',
+  '🌈 Wishing you endless joy!',
+  '🌟 Make your dreams come true!',
+  '💖 You are one of a kind!',
+  '🎊 Celebrate your awesomeness!',
+  '🚀 The best is yet to come!'
+];
+let popped=0;
+const bWrap=document.getElementById('balloonWrap');
+bColors.forEach((color,i)=>{
+  const b=document.createElement('div');
+  b.className='balloon';
+  b.style.cssText=`background:${color};--fd:${2.5+i*.4}s;--fdelay:${i*.3}s;`;
+  b.innerHTML='<span class="btext">🎈</span>';
+  b.onclick=()=>{
+    if(b.classList.contains('popped'))return;
+    b.classList.add('popped');popped++;
+    const msg=document.getElementById('balloonMsg');
+    msg.textContent=bMsgs[i];
+    if(popped===6)setTimeout(()=>{msg.textContent='🎉 All balloons popped! You found all the wishes! 🎉';},600);
+  };
+  bWrap.appendChild(b);
+});
+
+/* MEMORY GAME */
+const emojis=['🎂','🎁','🎈','🎉','🎊','🎵','🌟','💖'];
+let cards=[],flipped=[],matched=0,locked=false;
+function buildGame(){
+  cards=[...emojis,...emojis].sort(()=>Math.random()-.5);
+  flipped=[];matched=0;locked=false;
+  document.getElementById('gameResult').textContent='';
+  const grid=document.getElementById('memGrid');grid.innerHTML='';
+  cards.forEach(emoji=>{
+    const c=document.createElement('div');c.className='mc';c.textContent='?';c.dataset.emoji=emoji;
+    c.addEventListener('click',()=>flipCard(c));
+    grid.appendChild(c);
+  });
+}
+function flipCard(c){
+  if(locked||c.classList.contains('flipped')||c.classList.contains('matched'))return;
+  c.classList.add('flipped');c.textContent=c.dataset.emoji;flipped.push(c);
+  if(flipped.length===2){locked=true;setTimeout(checkMatch,800);}
+}
+function checkMatch(){
+  const[a,b]=flipped;
+  if(a.dataset.emoji===b.dataset.emoji){
+    a.classList.add('matched');b.classList.add('matched');matched++;
+    if(matched===emojis.length)document.getElementById('gameResult').textContent='🎉 You Won! Perfect Memory! 🎉';
+  } else {
+    a.classList.remove('flipped');b.classList.remove('flipped');a.textContent='?';b.textContent='?';
+  }
+  flipped=[];locked=false;
+}
+function resetGame(){buildGame();}
+buildGame();
+
+/* WISHES */
+function addWish(){
+  const inp=document.getElementById('wishInput'),txt=inp.value.trim();
+  if(!txt)return;
+  const d=document.getElementById('wishesDisplay');
+  const w=document.createElement('div');w.className='wish-item';
+  w.innerHTML=`💝 <strong>New Wish:</strong><br>${txt}`;
+  d.insertBefore(w,d.firstChild);inp.value='';inp.focus();
+}
+document.getElementById('wishInput').addEventListener('keydown',e=>{if(e.key==='Enter')addWish();});
+
+/* FINALE */
+function launchCelebration(){
+  const colors=['#ff4db2','#00e5ff','#ffd700','#c966ff','#00ff99','#ff6b35','#fff'];
+  for(let i=0;i<230;i++){
+    setTimeout(()=>{
+      const c=document.createElement('div');c.className='confetti-piece';
+      const sz=Math.random()*14+8;
+      c.style.cssText=`left:${Math.random()*100}%;width:${sz}px;height:${sz}px;background:${colors[Math.floor(Math.random()*colors.length)]};--fall-d:${(Math.random()*2.5+2.5).toFixed(1)}s;`;
+      document.body.appendChild(c);setTimeout(()=>c.remove(),5500);
+    },i*22);
+  }
+  setTimeout(()=>alert('🎉🎊 HAPPY BIRTHDAY ADITHI! 🎊🎉\n\nI pray that you win in your life, achieve all your dreams. I really want to see you on top — become the person you always wanted to be.\n\nI believe in you. Yeah, I do! 💖'),300);
+}
+
+/* NAV + SCROLL */
+const sections=document.querySelectorAll('.section');
+const navBtns=document.querySelectorAll('.nb');
+const sideNavBtns=document.querySelectorAll('.sn');
+const ids=['countdown','quiz','balloons','game','wishes','finale'];
+const observer=new IntersectionObserver(entries=>{
+  entries.forEach(entry=>{
+    if(entry.isIntersecting){
+      entry.target.classList.add('visible');
+      const idx=ids.indexOf(entry.target.id);
+      if(idx>=0){
+        navBtns.forEach((b,i)=>b.classList.toggle('active',i===idx));
+        sideNavBtns.forEach((b,i)=>b.classList.toggle('active',i===idx));
+      }
+    }
+  });
+},{threshold:.25});
+sections.forEach(s=>observer.observe(s));
+function goTo(id){document.getElementById(id).scrollIntoView({behavior:'smooth',block:'start'});}
+</script>
+</body>
+</html>
